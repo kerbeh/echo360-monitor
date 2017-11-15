@@ -1,0 +1,23 @@
+<?php
+
+
+return array(
+    //Admin device credentials or credentials of a user who has capture applicane permissions. These are the credenitals used to login to the capture applicanes
+   'deviceCredentials' => array(
+       'username' =>'',//The username for the capture appliance
+       'password' =>''//The password for the capture appliance
+    ),
+    //Optional only required to auto-generate config files. This feature is experimental
+    'alpCredentials' => array( 
+            'clientId' => '', // The client ID assigned to you by the provider
+            'clientSecret' => '', // The client password assigned to you by the provider
+            'urlAuthorize' => '',//The oAuth library requires the `urlAuthorize` option, to be present although it's not used in the OAuth 2.0 client credentials grant type.
+            'urlAccessToken' => 'https://echo360.org.au:443/oauth2/access_token', //the URL to retive an Oauth access token
+            'urlResourceOwnerDetails' => ''
+    ),
+    //Fill out key/vlaue pairs of Capture appliacne address including port as the key, and a friendly room name as the value.
+   'rooms' => array(
+       'localhost:8080' =>'TEST.01',
+
+        )
+    );

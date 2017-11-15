@@ -1,0 +1,58 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle($this->translate('Echo360 Capture Monitor'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                ->appendStylesheet($this->basePath() . '/css/style.css')
+                ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+                ->prependStylesheet($this->basePath() . '/css/font-awesome.min.css')
+
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                     ->offsetSetFile(100, 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js')
+        ->offsetSetFile(102, 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.js')
+        ;
+        ?>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Echo360 Capture Monitor') ?></a>
+
+
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-link"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
+                        <li class="nav-link"><a href="<?php echo $this->url('ConfigLoader') ?>"><?php echo $this->translate('ALP Config') ?></a></li>
+
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <?php echo $this->content; ?>
+            <hr>
+            <footer>
+                <p></p>
+            </footer>
+        </div> <!-- /container -->
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

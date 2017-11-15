@@ -1,0 +1,103 @@
+
+<?php
+$this->headScript()
+        ->offsetSetFile(104, '/js/app.js');
+?>
+
+
+
+
+
+<div ng-app="EchoApp">
+    <div class="ngCloak" ng-controller="EchoDevicesController">
+
+
+        <div class="container-fluid">
+            <div class="row ">
+
+
+
+                <div class="alert alert-success" role="alert" ng-show="devices.totals.active_devices == 0">
+                    👍 No captures right now, check back later or check your config for missing capture appliances.                
+                </div>
+                <div  class="alert alert-danger" role="alert" ng-show="devices == 'undefined' || devices == 'null' || devices.length == 0" >
+                    Uh-oh, There was an error with the response from the EchoMonitor API, better check the console.
+                </div>
+
+                <!-- Repeat panels start here-->
+                
+                <div class="col-md-3 panel-height" ng-repeat="(ip,device) in devices.devices">
+                    <div class="panel panel-default panel-height" >
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                {{device.title}}
+                            </h3>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div> Duration
+                                <!-- Times by 1000 to get milliseconds for Angular functions-->
+                                {{ device['start-time'] * 1000 | date:'h:mma' }}
+                                - 
+                                {{ device['start-time'] * 1000 + device.duration * 1000 | date:'h:mma' }}
+                            </div>
+                            <div>Room <a target="_blank" rel="noopener noreferrer" href="//{{ip}}/advanced">{{device.room}}</a></div>
+
+
+
+                            <span>Signals present: </span>
+                            <span ng-repeat="vga in device.vga"   class="signal-{{ vga['signal-present']}} fa fa-2x fa-desktop" aria-hidden="true">&nbsp;</span>
+                            <span ng-repeat="audio in device.audio" class="signal-{{ audio['signal-present']}} fa fa-2x fa-volume-up" aria-hidden="true">&nbsp;</span>
+
+
+
+                            <div  ng-repeat="audio in device.audio">
+
+                                <h4>Audio Levels:</h4>
+                                <div class="row"> 
+
+                                    <div class="col-sm-6 col-xs-6 col-no-padding" >
+                                        <div class="progress progress-right" >
+                                            <div class="progress-bar progress-bar-success" style="width: {{(100 / 5000) * audio.left_average}}%">
+                                                <span class="sr-only">{{(100 / 5000) * audio.left_average}} Average audio level (Left)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-info" style="width: {{ (100 / 5000) * audio.left_peak}}%">
+                                                <span class="sr-only">{{ (100 / 5000) * audio.left_peak}} Peak audio level (Left)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6 col-no-padding" >
+                                        <div class="progress" >
+                                            <div class="progress-bar progress-bar-success" style="width: {{(100 / 5000) * audio.right_average}}%">
+                                                <span class="sr-only">{{(100 / 5000) * audio.left_average}} Average audio level (Right)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-info" style="width: {{ (100 / 5000) * audio.right_peak}}%">
+                                                <span class="sr-only">{{ (100 / 5000) * audio.left_peak}} Peak audio level (Right)</span>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+
+
+                                <div class="row row-no-margin">
+                                    <div class="col-sm-6 col-no-padding" ng-repeat="(key,val) in device.vga">
+                                        <img alt="Thumbnail image of {{key}}" title="{{key}}" class="thumbnail img-responsive" ng-src="data:image/png;base64, {{val.base64Thumbnail}}">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <span class="label label-info">Total Devices {{devices.totals.total_devices}}</span>
+        <span class="label label-success">Active Captures {{devices.totals.active_devices}}</span>
+        <span class="label label-warning">Timeouts {{devices.totals.timedout_devices}}</span>
+
+
+    </div>
+</div>

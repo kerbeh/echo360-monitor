@@ -4,14 +4,14 @@ Echo360 Capture Monitor is a simple web interface to monitor the current status,
 
 ![Echo360 Capture Monitor Screenshot](https://i.imgur.com/fTgrZCl.png)
 
-Designed to be simple, read-only and seperate the credentials from simply viewing the captures. Support users can view active aptures without sharing the admin password or adding users to the sections.
+Designed to be simple, read-only and separate the credentials from simply viewing the captures. Support users can view active captures without sharing the admin password or adding users to the sections.
 
 ## Setup Instructions
 Echo360 Capture Monitor uses a PHP config file with a list of Capture Appliance web-addresses and room names as well as credentials.
 The config file is stored in /config/config.php
 
-### Device credentials config
-The device credentials depend on your instituions configuration, more information on finding the device credentials can be found here:
+### Device credentials config:
+The device credentials depend on your Institutions configuration, more information on finding the device credentials can be found here:
 [Echo Support Article](https://support.echo360.com/customer/en/portal/articles/2872308-common-settings---device-defaults?b_id=16609)
 
 ```
@@ -20,7 +20,7 @@ The device credentials depend on your instituions configuration, more informatio
        'password' =>''//The password for the capture appliance
     ),
 ```
-### Room config
+### Room config:
 Echo monitor needs to know some information about your institutions rooms and the web address of the capture applicanes in them.
 These can be set in the below format, note that the port is required but the protocol is not.
 ```
@@ -42,23 +42,23 @@ The simplest way to get started locally is to navigate to the "public" folder in
 ```
 php -S localhost:8080
 ```
-Then naviagte to localhost:8080 in your web-browser to see the application.
+Then navigate to localhost:8080 in your web-browser to see the application.
 
 Alternatively you can deploy the application on a dedicated PHP host.
 
 __Important!: Ensure only the public directory is served to the web, The config file contains passwords and must not be served__
 
 ## Useage Instructions
-The landing page will produce a panel for each running caputre.
-These panels contian all the important infomration to check that captures are running smoothly. 
+The landing page will produce a panel for each running capture.
+These panels contain all the important information to check that captures are running smoothly. 
 
 ![Hello World](https://i.imgur.com/sdWhSw6.png)
 
 ## Technology
--Echo360 Capture Monitor is an Angular app, styled in bootstrap with a Zend2 back end to aggregate and poll the Echo Capture Appliances API.
+Echo360 Capture Monitor is an Angular app, styled in bootstrap with a Zend2 back end to aggregate and poll the Echo Capture Appliances API. These technologies have been chosen as a learning exercise and are not intended to be the newest or best.
 
 ## Missing Features
-- Currently this is a wrapper for Echo capture applicances only. This does not interface with Echo center or Echo ALP (yet) this means that admins will need to maintian a config file of echo applicance IPs.
+- Currently this is a wrapper for Echo capture appliances only. This does not interface with Echo center or Echo ALP (yet) this means that admins will need to maintain a config file of echo appliance IPs.
 - No way to filter the devices. All devices will be queried and only active captures will be shown in the web interface
 - As the echo devices are stored in a config file. Devices configured with DHCP will need frequent updating.
 - SSL Certificates are supported but not verified

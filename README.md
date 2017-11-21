@@ -58,7 +58,6 @@ These panels contain all the important information to check that captures are ru
 Echo360 Capture Monitor is an Angular app, styled in bootstrap with a Zend2 back end to aggregate and poll the Echo Capture Appliances API. These technologies have been chosen as a learning exercise and are not intended to be the newest or best.
 
 ## Missing Features
-- Currently this is a wrapper for Echo capture appliances only. This does not interface with Echo center or Echo ALP (yet) this means that admins will need to maintain a config file of echo appliance IPs.
 - No way to filter the devices. All devices will be queried and only active captures will be shown in the web interface
 - As the echo devices are stored in a config file. Devices configured with DHCP will need frequent updating.
 - SSL Certificates are supported but not verified

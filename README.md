@@ -30,8 +30,8 @@ These can be set in the below format, note that the port is required but the pro
     )
 
 ```
-There is an experimental feature that uses the EchoALP API to generate a list of rooms. Please refer the config file on how to configure the API crednetials to use this feature.
-
+There are bookmarklets to auto build the arrays.
+They are avaliable for [EchoESS](https://gist.github.com/kerbeh/64fcf2bbd5717c2b0359961e3bf156ff) and [EchoALP](https://gist.github.com/kerbeh/6c199d8c409ad68529e255f5809da657)
 ## Installation
 Echo360 Capture Monitor requires a PHP web server to run and uses composer for dependency management.
 After downloading you must install dependencies using

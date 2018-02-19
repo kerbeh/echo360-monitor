@@ -8,7 +8,7 @@ Designed to be simple, read-only and separate the credentials from simply viewin
 
 ## Setup Instructions
 Echo360 Capture Monitor uses a PHP config file with a list of Capture Appliance web-addresses and room names as well as credentials.
-The config file is stored in /config/config.php
+The config file is stored in /config/autoload/local.php
 
 ### Device credentials config:
 The device credentials depend on your Institutions configuration, more information on finding the device credentials can be found here:

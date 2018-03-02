@@ -23,21 +23,22 @@ class DeviceService {
     }
 
     public function getRoom($deviceList) {
-        
-        $rooms = $this->config->rooms->toArray();
+
+        $rooms = array_flip($this->config->rooms->toArray());
 
         foreach ($deviceList as $key => $value) {
-              
-            $deviceList[$key]['room'] = $rooms[$key];
+
+            $deviceList[$key]['room'] 
+                    = $rooms[$key];
         }
         return $deviceList;
     }
 
-    public function deviceList() {
+    public function deviceList() {    
         $deviceResponses = $this->queryDevices($this->URLarray);
 
         $filteredDeviceResponses = $this->filterDeviceResponses($deviceResponses);
-        
+
 
 //Loop over each of the device XML responses
         $CurrentCaptureArray = array();
@@ -58,11 +59,42 @@ class DeviceService {
             $output = $CurrentCaptureArray;
         }
 
-      
-        
+
+
         return ["totals" => $totals, "devices" => $this->getRoom($output)];
     }
 
+    
+    /*
+    public function queryDevicesOld($URLarray) {
+
+        $returnArray = [];
+        $errorArray = [];
+
+        foreach ($URLarray as $key => $value) {
+         
+            $uri = "$value/status/current_capture";
+               print_r("$uri");
+            $client = new Client;
+            $client->setUri($uri);
+            $client->setAuth($this->config->deviceCredentials->username, $this->config->deviceCredentials->password, $type = self::AUTH_BASIC);
+            $client->setMethod('GET');
+            $response = $client->send();
+print_r($response);
+
+return $response;
+
+
+            if ($response->getStatusCode() == 200) {
+                print_r($response->getContent());
+            } else {
+                //TODO error catch here
+                //return  $response->getContent();
+                echo "fail";
+            }
+        }
+    }
+*/
     public function queryDevices($URLarray) {
 
         $returnArray = array();
@@ -76,33 +108,37 @@ class DeviceService {
         for ($i = 0; $i < $urlCount; $i++) {
 
             $url = $URLarray[$i];
-            $curlArray[$i] = curl_init($url . "/status/current_capture");
+            $curlArray[$i] = curl_init($url . ":8080/status/current_capture");
             curl_setopt($curlArray[$i], CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curlArray[$i], CURLOPT_USERPWD, $this->config->deviceCredentials->username . ":" . $this->config->deviceCredentials->password);
             curl_setopt($curlArray[$i], CURLOPT_SSL_VERIFYHOST, false); //TODO remove this later once SSL has been sorted
             curl_setopt($curlArray[$i], CURLOPT_CONNECTTIMEOUT, 1);
             curl_multi_add_handle($curlMulti, $curlArray[$i]);
+            
         }
 
         do {
             curl_multi_exec($curlMulti, $running);
             //28 is the Curl error code for CURL_OPERATION_TIMEDOUT (28) 
-            if (curl_multi_info_read($curlMulti)['result'] === 28) {
+            if (curl_multi_info_read($curlMulti)['result'] === 28 ) {
 
                 $error_array[] = $URLarray[$running];
             }
+          
         } while ($running > 0);
 
 
 
         for ($i = 0; $i < $urlCount; $i++) {
+            
+   
+
             $results = curl_multi_getcontent($curlArray[$i]);
 
-            if ($results !== null) {
+            if ($results !== null && strpos($results, '401 Unauthorized') == false) {
                 $returnArray[$URLarray[$i]] = $results;
-            } else {
-
-                echo "this is an error";
+            }else {
+                //log this echo "this is an error";
             }
         }
 
@@ -184,7 +220,7 @@ class DeviceService {
                 } else {
                     $client = new Client();
                     $client->setAuth($this->config->deviceCredentials->username, $this->config->deviceCredentials->password, \Zend\Http\Client::AUTH_BASIC);
-                    $client->setUri("http://" . $deviceIP . "/monitoring/" . $signal['thumbnail'] . "?" . time());
+                    $client->setUri("http://" . $deviceIP . ":8080/monitoring/" . $signal['thumbnail'] . "?" . time());
                     $client->setMethod(\Zend\Http\Request::METHOD_GET);
 
                     $response = $client->send();
